@@ -1,4 +1,4 @@
-# MDISECH Topluluğu Makale Organizasyon Reposu
+# MDISEC Topluluğu Makale Organizasyon Reposu
 MDISEC Twitch yayınlarına katılan topluluk tarafından hazırlanacak makalelerin süreç yönetimi için kullanılan repodur.
 
 ## Nedir ?
