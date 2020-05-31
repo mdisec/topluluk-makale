@@ -12,3 +12,6 @@ Makale konusu başlığını buraya da giriniz.
 
 **Açıklama**
 Bu makale konusunun ne tür bilgileri içermesi gerektiğini, var ise aklınızda alt başlıkları buraya giriniz.
+
+**Discord nickname**
+MDISEC Discord kanalında kullandığınız nickinizi buraya giriniz.
