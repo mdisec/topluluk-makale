@@ -7,7 +7,17 @@ Bunların neler olduğuna geçmeden önce açıklanacak bazı zafiyetler.
 Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
 
 #### Clickjacking
+Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe içerisinde başka bir websitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
+
+Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa, kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
+
+#### Mime Type Sniffing
+Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgenin içeriğini analiz ederek türünü tespit etmeye çalışmasıdır. Bir zafiyet türü değildir, fakat XSS gibi bazı saldırılara sebep olabilir. 
+
+Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde, tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
+
 *----------*
+
 
 ## HTTP SECURITY HEADERS
 
@@ -47,8 +57,13 @@ Yalnızca belirtilen URL tarafından kullanılmasına izin verir. Güncel taray�
 
 
 ### X-Content-Type-Options
-### Content-Security-Policy (CSP)
+
+Tarayıcının, uygulamanın belirlediği MIME türüne uymasını sağlar. Mime Type Sniffing saldırılarına karşı koruma sağlar.
+
+`X-Content-Type-Options: nosniff`
+
 ### HSTS (HTTP Strict Transport Security)
+### Content-Security-Policy (CSP)
 
 
 ## COOKIE FLAGS
