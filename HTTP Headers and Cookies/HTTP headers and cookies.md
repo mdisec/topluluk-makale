@@ -1,23 +1,6 @@
+// Bilgiler tamam, makale haline getirilecek.
+
 # HTTP SECURITY HEADERS AND COOKIE FLAGS
-
-*---Todo---*
-
-Bunların neler olduğuna geçmeden önce açıklanacak bazı zafiyetler.
-#### XSS 
-Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
-
-#### Clickjacking
-Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe içerisinde başka bir websitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
-
-Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa, kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
-
-#### Mime Type Sniffing
-Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgenin içeriğini analiz ederek türünü tespit etmeye çalışmasıdır. Bir zafiyet türü değildir, fakat XSS gibi bazı saldırılara sebep olabilir. 
-
-Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde, tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
-
-*----------*
-
 
 ## HTTP SECURITY HEADERS
 
@@ -28,14 +11,16 @@ HTTP başlıkları, HTTP istek ve yanıtlarında yer alır ve bazı ek veriler i
 Muhtemel XSS payloadlarını tespit edip filtreleyerek Reflected XSS saldırılarına karşı koruma sağlar. 
 Stored XSS karşısında çaresizdir!
 
-**Parametreleri**
-- 0:
+#### XSS nedir?
+Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
+
+- **0:**
 Filtrelemeyi devre dışı bırakır. 
-- 1:
+- **1:**
 Filtrelemeyi etkinleştirir.
-- mode=block:
+- **mode=block:**
 XSS tespiti halinde sayfanın yüklenmesini engeller. 
-- report=https://website.com/xss.log:
+- **report=https://website.com/xss.log:**
 XSS tespiti halinde saldırı girişimini belirtilen siteye raporlar. Sadece Chromium tabanlı tarayıcılarda kullanılır. 
 
 `X-XSS-Protection: 1; mode=block; report=https://website.com/xss.log`
@@ -45,12 +30,15 @@ XSS tespiti halinde saldırı girişimini belirtilen siteye raporlar. Sadece Chr
 
 Sayfanın bir iframe içerisinde çağırılma durumunu kontrol eder. Clickjacking saldırılarına karşı koruma sağlar.
 
-**Parametreleri**
-- DENY:
+#### Clickjacking nedir?
+Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe içerisinde başka bir web sitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
+Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa, kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
+
+- **DENY:**
 Hiçbir şekilde iframe içerisinde kullanılmasına izin verilmez.
-- SAMEORIGIN:
+- **SAMEORIGIN:**
 Yalnızca aynı domain tarafından kullanılmasına izin verir.
-- ALLOW-FROM URL:
+- **ALLOW-FROM URL:**
 Yalnızca belirtilen URL tarafından kullanılmasına izin verir. Güncel tarayıcılarda desteklenmemektedir!
 
 `X-Frame-Options: SAMEORIGIN`
@@ -60,10 +48,56 @@ Yalnızca belirtilen URL tarafından kullanılmasına izin verir. Güncel taray�
 
 Tarayıcının, uygulamanın belirlediği MIME türüne uymasını sağlar. Mime Type Sniffing saldırılarına karşı koruma sağlar.
 
+#### Mime Type Sniffing nedir?
+Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgenin içeriğini analiz ederek türünü tespit etmeye çalışmasıdır. Bir zafiyet türü değildir, fakat XSS gibi bazı saldırılara sebep olabilir. 
+
+Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde, tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
+
 `X-Content-Type-Options: nosniff`
 
 ### HSTS (HTTP Strict Transport Security)
+
+Web sitesi ve browser arasındaki iletişimin yalnızca HTTPS üzerinden gerçekleşmesini sağlar. MITM saldırılarına karşı koruma sağlar.
+
+#### Man in The Middle nedir?
+MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle gerçekleşir. HTTP bağlantılarında paketler şifrelenmediği için, hassas veriler saldırganın eline geçebilir.
+
+- **max-age:** 
+Özelliğin browser hafızasında tutulacağı süreyi saniye olarak belirtir.
+
+- **includeSubDomains:** 
+Özelliğin tüm subdomainler için geçerli olacağını belirtir.
+
+- **preload:** 
+SSL sertifikasının tarayıcının default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişim, başlığın set edileceği ilk yanıttan önce başlar.
+
+`Strict-Transport-Security: max-age=10886400; includeSubDomains; preload`
+
 ### Content-Security-Policy (CSP)
+
+CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking saldırılarına karşı koruma sağlar.
+
+- **base-uri:** <base> elementinde kullanılabilecek URL'leri kısıtlar.
+- **default-src:** Default değer belirtir.
+- **font-src:** @font-face kullanarak yüklenecek kaynakları belirtir.
+- **form-action:** Form action olarak kullanılabilecek URL'leri kısıtlar.
+- **frame-ancestors:** Sayfayı <iframe> elementi içerisinde *yükleyebilecek* URL'leri belirtir.
+- **frame-src:** Sayfanın içinde <iframe> elementiyle *yüklenebilecek* URL'leri belirtir.
+- **img-src:** Resimlerin yüklenebileceği kaynakları belirtir.
+- **media-src:** audio, video gibi elementler kullanarak yüklenecek medyaların kaynaklarını belirtir.
+- **object-src:** object, embed, applet gibi elementler kullanarak yüklenecek objelerin kaynaklarını belirtir. 
+- **report-uri:** Belirtilen kuralları ihlal teşebbüsü oluştuğunda, raporun gönderileceği web sitesini belirtir.
+- **script-src:** JavaScript kodları için kullanılabilecek kaynakları kısıtlar.
+- **style-src:** Stil dosyaları için kullanılabilecek kaynakları kısıtlar.
+- **upgrade-insecure-requests:** HTTP isteklerini HTTPS isteklerine çevirir.
+
+- **self:** Yalnızca aynı site üzerinden yüklenmesine izin verir.
+- **none:** Hiçbir kaynak üzerinden yüklenmesine izin verilmez.
+- ***.website.com:** Belirtilen URL ve subdomainlerinden yükleme yapmaya izin verir.
+
+- Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+
+`Content-Security-Policy: default-src 'self' https://website.com` 
 
 
 ## COOKIE FLAGS
