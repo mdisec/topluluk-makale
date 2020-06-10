@@ -1,6 +1,6 @@
 # HTTP SECURITY HEADERS
 
-HTTP başlıkları, HTTP istek ve yanıtlarında yer alır ve bazı ek veriler içerir. Bu veriler sunucu/istemciye ait bilgiler, mesajın boyutu, türü gibi bilgiler veya çerezler olabilir. Burada ise bazı güvenlik zafiyetlerine kısaca değinilecek ve bunları engellemeye yardımcı olacak HTTP başlıkları anlatılacaktır.
+HTTP başlıkları, HTTP istek ve yanıtlarında yer alır, aynı zamanda bazı ek veriler içerir. Bu veriler sunucu/istemciye ait bilgiler, mesajın boyutu, türü gibi bilgiler veya çerezler olabilir. Burada ise bazı güvenlik zafiyetlerine kısaca değinilecek ve bunları engellemeye yardımcı olacak HTTP başlıkları anlatılacaktır.
 
 ### X-XSS-PROTECTION
 
@@ -29,7 +29,7 @@ Sayfanın bir iframe içerisinde çağırılma durumunu kontrol eder. Clickjacki
 
 #### Clickjacking nedir?
 Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe elementi içerisinde başka bir web sitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
-Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa, kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
+Örneğin kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
 
 **Parametreleri**
 - **DENY:**
@@ -47,9 +47,9 @@ Yalnızca belirtilen URL tarafından kullanılmasına izin verir. Güncel taray�
 Tarayıcının, uygulamanın belirlediği MIME türüne uymasını sağlar. Mime Type Sniffing saldırılarına karşı koruma sağlar.
 
 #### Mime Type Sniffing nedir?
-Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgenin içeriğini analiz ederek türünü tespit etmeye çalışmasıdır. Bir zafiyet türü değildir, fakat XSS gibi bazı saldırılara sebep olabilir. 
+Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgenin içeriğini analiz ederek belgenin türünü tespit etmeye çalışmasıdır. Bir zafiyet türü değildir fakat XSS gibi bazı saldırılara sebep olabilir. 
 
-Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde, tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
+Mesela HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
 
 `X-Content-Type-Options: nosniff`
 
@@ -68,13 +68,13 @@ MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle g
 Özelliğin tüm subdomainler için geçerli olacağını belirtir.
 
 - **preload:** 
-SSL sertifikasının tarayıcıların default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişimin başlaması için, başlığın set edileceği ilk yanıt beklenmez.
+SSL sertifikasının tarayıcıların default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişimin başlaması için, başlığın belirleneceği ilk yanıt beklenmez.
 
 `Strict-Transport-Security: max-age=10886400; includeSubDomains; preload`
 
 ### Content-Security-Policy (CSP)
 
-CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking gibi saldırılara karşı koruma sağlar.
+CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, clickjacking gibi saldırılara karşı koruma sağlar.
 
 - **base-uri:** base elementinde kullanılabilecek URL'leri kısıtlar.
 - **default-src:** Default değer belirtir.
