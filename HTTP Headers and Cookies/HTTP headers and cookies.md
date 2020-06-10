@@ -1,10 +1,6 @@
-// Bilgiler tamam, makale haline getirilecek.
+# HTTP SECURITY HEADERS
 
-# HTTP SECURITY HEADERS AND COOKIE FLAGS
-
-## HTTP SECURITY HEADERS
-
-HTTP başlıkları, HTTP istek ve yanıtlarında yer alır ve bazı ek veriler içerir. Bu veriler sunucu/istemciye ait bilgiler, mesajın boyutu, türü gibi bilgiler veya çerezler olabilir. Burada anlatılanlar ise bazı zafiyetleri engellemeye yardımcı olacak güvenlik başlıklarıdır.
+HTTP başlıkları, HTTP istek ve yanıtlarında yer alır ve bazı ek veriler içerir. Bu veriler sunucu/istemciye ait bilgiler, mesajın boyutu, türü gibi bilgiler veya çerezler olabilir. Burada ise bazı güvenlik zafiyetlerine kısaca değinilecek ve bunları engellemeye yardımcı olacak HTTP başlıkları anlatılacaktır.
 
 ### X-XSS-PROTECTION
 
@@ -14,6 +10,7 @@ Stored XSS karşısında çaresizdir!
 #### XSS nedir?
 Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
 
+**Parametreleri**
 - **0:**
 Filtrelemeyi devre dışı bırakır. 
 - **1:**
@@ -31,9 +28,10 @@ XSS tespiti halinde saldırı girişimini belirtilen siteye raporlar. Sadece Chr
 Sayfanın bir iframe içerisinde çağırılma durumunu kontrol eder. Clickjacking saldırılarına karşı koruma sağlar.
 
 #### Clickjacking nedir?
-Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe içerisinde başka bir web sitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
+Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe elementi içerisinde başka bir web sitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
 Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa, kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
 
+**Parametreleri**
 - **DENY:**
 Hiçbir şekilde iframe içerisinde kullanılmasına izin verilmez.
 - **SAMEORIGIN:**
@@ -62,6 +60,7 @@ Web sitesi ve browser arasındaki iletişimin yalnızca HTTPS üzerinden gerçek
 #### Man in The Middle nedir?
 MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle gerçekleşir. HTTP bağlantılarında paketler şifrelenmediği için, hassas veriler saldırganın eline geçebilir.
 
+**Parametreleri**
 - **max-age:** 
 Özelliğin browser hafızasında tutulacağı süreyi saniye olarak belirtir.
 
@@ -69,47 +68,45 @@ MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle g
 Özelliğin tüm subdomainler için geçerli olacağını belirtir.
 
 - **preload:** 
-SSL sertifikasının tarayıcının default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişim, başlığın set edileceği ilk yanıttan önce başlar.
+SSL sertifikasının tarayıcıların default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişimin başlaması için, başlığın set edileceği ilk yanıt beklenmez.
 
 `Strict-Transport-Security: max-age=10886400; includeSubDomains; preload`
 
 ### Content-Security-Policy (CSP)
 
-CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking saldırılarına karşı koruma sağlar.
+CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking gibi saldırılara karşı koruma sağlar.
 
-- **base-uri:** <base> elementinde kullanılabilecek URL'leri kısıtlar.
+- **base-uri:** base elementinde kullanılabilecek URL'leri kısıtlar.
 - **default-src:** Default değer belirtir.
 - **font-src:** @font-face kullanarak yüklenecek kaynakları belirtir.
 - **form-action:** Form action olarak kullanılabilecek URL'leri kısıtlar.
-- **frame-ancestors:** Sayfayı <iframe> elementi içerisinde *yükleyebilecek* URL'leri belirtir.
-- **frame-src:** Sayfanın içinde <iframe> elementiyle *yüklenebilecek* URL'leri belirtir.
+- **frame-ancestors:** Sayfayı iframe elementi içerisinde *yükleyebilecek* URL'leri belirtir.
+- **frame-src:** Sayfanın içerisinde iframe elementiyle *yüklenebilecek* URL'leri belirtir.
 - **img-src:** Resimlerin yüklenebileceği kaynakları belirtir.
-- **media-src:** audio, video gibi elementler kullanarak yüklenecek medyaların kaynaklarını belirtir.
-- **object-src:** object, embed, applet gibi elementler kullanarak yüklenecek objelerin kaynaklarını belirtir. 
+- **media-src:** audio, video gibi elementler kullanılarak yüklenecek medyaların kaynaklarını belirtir.
+- **object-src:** object, embed, applet gibi elementler kullanılarak yüklenecek objelerin kaynaklarını belirtir. 
 - **report-uri:** Belirtilen kuralları ihlal teşebbüsü oluştuğunda, raporun gönderileceği web sitesini belirtir.
 - **script-src:** JavaScript kodları için kullanılabilecek kaynakları kısıtlar.
 - **style-src:** Stil dosyaları için kullanılabilecek kaynakları kısıtlar.
 - **upgrade-insecure-requests:** HTTP isteklerini HTTPS isteklerine çevirir.
 
-- **self:** Yalnızca aynı site üzerinden yüklenmesine izin verir.
-- **none:** Hiçbir kaynak üzerinden yüklenmesine izin verilmez.
-- ***.website.com:** Belirtilen URL ve subdomainlerinden yükleme yapmaya izin verir.
+* **self:** Yalnızca aynı site üzerinden yüklenmesine izin verir.
+* **none:** Hiçbir kaynak üzerinden yüklenmesine izin verilmez.
+* ***.website.com:** Belirtilen URL ve subdomainlerinden yükleme yapmaya izin verir.
 
-- Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- Yukarıda sadece bazı özellikler açıklanmıştır. Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
 
 `Content-Security-Policy: default-src 'self' https://website.com` 
 
 
-## COOKIE FLAGS
+### COOKIE FLAGS
 
-HTTP çerezleri (cookies), kullanıcının tarayıcısında depolanan küçük verilerdir. Genellikle oturum takibi yapmak ve kullanıcının tercihlerini hatırlamak için kullanılır. Bu çerezlerin güvenliğini sağlamak için çerezlere eklenmesi gereken bazı özellikler vardır.
+HTTP çerezleri (cookies), kullanıcının tarayıcısında depolanan küçük verilerdir. Genellikle oturum takibi yapmak ve kullanıcının tercihlerini hatırlamak için kullanılır. Bu çerezlerin güvenliğini sağlamak için çerezlere eklenmesi gereken bazı parametreler vardır.
 
-### HttpOnly
-
+- **HttpOnly:** 
 HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScript tarafından (document.cookie) erişilemez. Session_id gibi önemli verilerin XSS saldırısıyla ele geçirilmesini engeller.
 
-### Secure
-
+- **Secure:** 
 Çerezlerin yalnızca HTTPS taleplerinde sunucuya gönderilmesini sağlar. HTTPS taleplerinde veriler şifreli olarak gönderildiği için ağı dinleyen saldırganın çerezleri ele geçirmesi önlenir.
 
 `Set-Cookie: sessionid=xAeeEjJyvOA0eCaD1qUFmCT3cfYxc9Tp8q1bonFtoVB10pDCx5GC6iw9I5nY8FXNAWZHEA; HttpOnly; Secure`
