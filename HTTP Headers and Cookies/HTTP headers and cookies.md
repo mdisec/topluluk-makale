@@ -6,12 +6,12 @@ Aşağıdaki örnekte, HTTP istek ve yanıtlarında yer alan bazı başlıkları
 
 ![http-headers](http-headers.png)
 
-Bu yazının devamında, bazı güvenlik zafiyetlerine kısaca değinilecek ve bunları engellemeye yardımcı olacak HTTP başlıkları anlatılacaktır.
+Yazının devamında, bazı güvenlik zafiyetleri ve bunları engellemeye yardımcı olacak HTTP başlıkları anlatılacaktır.
 
 ### X-XSS-PROTECTION
 
 Muhtemel XSS payloadlarını tespit edip filtreleyerek Reflected XSS saldırılarına karşı koruma sağlar. 
-Stored XSS karşısında çaresizdir!
+Stored XSS karşısında çaresizdir. Güncel tarayıcıların çoğunda desteklenmemektedir!
 
 #### XSS nedir?
 Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
@@ -59,6 +59,7 @@ Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bi
 
 `X-Content-Type-Options: nosniff`
 
+
 ### HSTS (HTTP Strict Transport Security)
 
 Web sitesi ve browser arasındaki iletişimin yalnızca HTTPS üzerinden gerçekleşmesini sağlar. MITM saldırılarına karşı koruma sağlar.
@@ -77,6 +78,7 @@ MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle g
 SSL sertifikasının tarayıcıların default HSTS listesine eklenmesini sağlar. Böylece güvenli iletişimin başlaması için, başlığın belirleneceği ilk yanıt beklenmez.
 
 `Strict-Transport-Security: max-age=10886400; includeSubDomains; preload`
+
 
 ### Content-Security-Policy (CSP)
 
@@ -117,6 +119,8 @@ HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScri
 
 `Set-Cookie: sessionid=xAeeEjJyvOA0eCaD1qUFmCT3cfYxc9Tp8q1bonFtoVB10pDCx5GC6iw9I5nY8FXNAWZHEA; HttpOnly; Secure`
 
+
+**Sonuç olarak,** bu küçük ama etkili önlemleri almak web sitemizin güvenliğini artırabilir, bizi ve kullanıcılarımızı zafiyetlerden koruyabilir.
 
 ##### REFERANSLAR
 
