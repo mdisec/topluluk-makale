@@ -88,7 +88,7 @@ Bu yöntemin dezavantajlarından birisi; taşıyıcı dosyaya yeni bir frekans e
 
 1-10 ms gecikme ile saklanacak mesajın bit değerlerinden hareketle taşıyıcı dosyaya yankılar eklenmesidir. Öncelikle ses dosyası segmentlere ayrılır, saklanacak mesajın da bit değerleri alınır. Segmentleri takip edebilmek ve yankısını ekleyebilmek için her bir segmentin hash değerleri alınır. Eğer mesajın bit değeri 1 ise bakılan segmentten üç segment sonrasına aynı segmentin yankısı eklenir,  eğer mesajın bit değeri 0 ise bakılan segmentten iki segment sonrasına aynı segmentin yankısı eklenir.
 
-Bu yöntemin dezavantajı gecikme süresinin uzun olması durumunda verinin varlığının açığa çıkabilir olmasıdır. Ayrıca stego-medium da kırpma, sıkıştırma gibi işlemlere karşı savunmasızdır.
+Bu yöntemin dezavantajı gecikme süresinin uzun olması durumunda verinin varlığının açığa çıkabilir olmasıdır. Ayrıca stego-medium kırpma, sıkıştırma gibi işlemlere karşı savunmasızdır.
 
 ### Yazarlar
 batcain - [github.com/batcain](https://github.com/batcain)  
