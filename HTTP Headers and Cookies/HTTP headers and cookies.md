@@ -10,7 +10,7 @@ Yazının devamında, bazı güvenlik zafiyetleri ve bunları engellemeye yardı
 
 ### X-XSS-PROTECTION
 
-Muhtemel XSS payloadlarını tespit edip filtreleyerek Reflected XSS saldırılarına karşı koruma sağlama amacıyla geliştirildi. Ancak frame buster mekanizmalarını devre dışı bırakmak, sayfadan veri çıkarabilmek gibi bazı güvenlik zafiyetlerine sebep oluyordu (Ayrıntılı bilgi için [bkz](images/https://medium.com/bugbountywriteup/xss-auditor-the-protector-of-unprotected-f900a5e15b7b)). Güncel tarayıcıların çoğunda desteklenmemektedir.
+Muhtemel XSS payloadlarını tespit edip filtreleyerek Reflected XSS saldırılarına karşı koruma sağlama amacıyla geliştirildi. Ancak frame buster mekanizmalarını devre dışı bırakmak, sayfadan veri çıkarabilmek gibi bazı güvenlik zafiyetlerine sebep oluyordu (Ayrıntılı bilgi için [bkz](https://medium.com/bugbountywriteup/xss-auditor-the-protector-of-unprotected-f900a5e15b7b)). Güncel tarayıcıların çoğunda desteklenmemektedir.
 
 #### XSS nedir?
 Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
@@ -22,10 +22,10 @@ Filtrelemeyi devre dışı bırakır.
 Filtrelemeyi etkinleştirir.
 - **mode=block:**
 XSS tespiti halinde sayfanın yüklenmesini engeller. 
-- **report=https://website.com/xss.log:**
+- **report=https://example.com/xss.log:**
 XSS tespiti halinde saldırı girişimini belirtilen siteye raporlar. Sadece Chromium tabanlı tarayıcılarda kullanılır. 
 
-`X-XSS-Protection: 1; mode=block; report=https://website.com/xss.log`
+`X-XSS-Protection: 1; mode=block; report=https://example.com/xss.log`
 
 ![x-xss-protection](images/x-xss-protection.png)
 
@@ -40,7 +40,6 @@ Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe elementi 
 #### postMessage XSS nedir?
 postMessage; bir websitesinin, içerisindeki iframe ile güvenli bir şekilde iletişim kurmasını sağlayan JavaScript metodudur. Eğer metodun uygulanmasında XSS zafiyetine sebep olacak bir kod yazılmış ise, saldırgan zafiyetli sayfayı kendi websitesinde iframe etiketi içinde açarak XSS saldırısını gerçekleştirebilir.
 
-**Parametreleri**
 - **DENY:**
 Hiçbir şekilde iframe içerisinde kullanılmasına izin verilmez.
 - **SAMEORIGIN:**
@@ -106,11 +105,11 @@ CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) 
 
 * **self:** Yalnızca aynı site üzerinden yüklenmesine izin verir.
 * **none:** Hiçbir kaynak üzerinden yüklenmesine izin verilmez.
-* ***.website.com:** Belirtilen URL ve subdomainlerinden yükleme yapmaya izin verir.
+* ***.example.com:** Belirtilen URL ve subdomainlerinden yükleme yapmaya izin verir.
 
 - Yukarıda sadece bazı özellikler açıklanmıştır. Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#Directives)
 
-`Content-Security-Policy: default-src 'self' https://website.com` 
+`Content-Security-Policy: default-src 'self' https://example.com` 
 
 ![content-security-policy](images/content-security-policy.png)
 
@@ -129,13 +128,44 @@ Kamera, mikrofon, sensörlere erişim ve aşağıda belirtilmiş birtakım brows
 * **self:** Belirtilen özelliği yalnızca sitenin kendisinin kullanmasına izin verir.
 * **none:** Özelliğin kullanımına izin vermez.
 * **\***: Özelliğin sitenin kendisi ve yüklediği iframe pencereleri tarafından kullanılmasına izin verir.
-* **website.com:** Özelliğin belirtilen websitesi tarafından kullanılmasına izin verir.
+* **example.com:** Özelliğin belirtilen websitesi tarafından kullanılmasına izin verir.
 
 Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy#Directives)
 
 `Feature-Policy: camera 'self'; microphone 'none'; autoplay * `
 
 ![feature-policy](images/feature-policy.png)
+
+### Cross-Origin Resource Sharing (CORS) ve Access-Control-Allow-Origin
+
+Kökenler arası kaynak paylaşımı (CORS), bir websitesi üzerindeki bazı kaynakların, başka bir kökene sahip (farklı domain, protokol veya port) websitesi tarafından kullanılabilmesini sağlayan mekanizmadır. Ajax çağrıları (XMLHttpRequest ve fetch API), drawImage() metoduyla çizilen canvas elementleri, CSS içerisinde @font-face ile çağrılan yazı tipleri ve [WebGL texture](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL) istekleri için kullanılır. 
+
+Hangi kaynaklara izin verileceği Access-Control-Allow-Origin başlığı ile belirlenir.
+- ***:** Kimlik bilgisi gerektirmeyen istekler için, bütün kaynaklara izin verir.
+- **example.com:** Yalnızca belirtilen kökenden gelen isteklere izin verir.
+- **null:** Kökeni null olarak belirtir. "data://", "file://" gibi hiyerarşik olmayan şemaların Origin değeri null olabildiği için, bu değerin kullanımından kaçınılmalıdır.
+
+`Access-Control-Allow-Origin: https://example.com`
+
+![cors](images/cors.png)
+
+### Http Public Key Pinning
+
+Şifrelenmiş anahtar ile web sitesini eşleştiren bir güvenlik başlığıdır. Kullanıcı ve sunucu arasındaki ilk bağlantıda anahtar belirlenir ve sonraki isteklerin bu anahtarı içermesi beklenir. Yanlış anahtar gönderildiğinde kullanıcı uyarılır ve "report-uri" özelliği aktifse, belirtilen URL'e rapor edilir. Sahte sertifikalar yoluyla yapılan MiTM saldırılarını engellemek için geliştirilmiştir. Şu anda güncel tarayıcılar tarafından desteklenmemektedir. ([Neden kaldırıldı?](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ))
+
+**Parametreleri**
+- **pin-sha256:**
+Base64 olarak kodlanmış [SPKI](https://ldapwiki.com/wiki/Subject%20Public%20Key%20Info) parmak izidir.
+- **max-age:**
+Anahtarın browser hafızasında tutulacağı süreyi saniye olarak belirtir.
+- **includeSubDomains:**
+Anahtarın tüm subdomainler için geçerli olacağını belirtir.
+- **report-uri:**
+Pin doğrulama hataları belirtilen websitesine bildirilir.
+
+`Public-Key-Pins: pin-sha256="Yjk0ZDI3Yjk5MzRkM2UwOGE1MmU1MmQ3ZGE3ZGFiZmFjNDg0ZWZlMzdhNTM4MGVlOTA4OGY3YWNlMmVmY2RlOQ=="; max-age=5184000; includeSubDomains; report-uri="https://example.com/hpkp-report"`
+
+![http-public-key-pinning](images/public-key-pinning.png)
 
 ### COOKIE FLAGS
 
@@ -165,3 +195,5 @@ HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScri
 - https://developer.mozilla.org/en-US/docs/*
 - https://www.netsparker.com.tr/blog/web-guvenligi/*
 - https://nullsweep.com/http-security-headers-a-complete-guide/
+- https://tr.wikipedia.org/wiki/K%C3%B6kler_Aras%C4%B1_Kaynak_Payla%C5%9F%C4%B1m%C4%B1#%C4%B0stek_ba%C5%9Fl%C4%B1klar%C4%B1
+- https://caniuse.com/*
