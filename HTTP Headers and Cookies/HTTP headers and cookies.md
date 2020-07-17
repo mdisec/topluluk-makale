@@ -1,8 +1,8 @@
 # HTTP SECURITY HEADERS
 
-Hyper Text Transfer Protokol (HTTP), sunucu ve istemci arasında iletişim kurarak hipermedya belgelerinin (HTML) iletimini sağlayan bir protokoldür. İletişim sırasında birtakım veri alışverişleri yapılması gerekir. Sunucu/istemcinin detaylarını, mesajın boyutunu, türünü ve çerezleri içeren bu veriler HTTP başlıkları ile belirtilir.
+Hyper Text Transfer Protokol (HTTP), sunucu ile istemci arasında iletişim kurarak hipermedya belgelerinin (HTML) iletimini sağlayan bir protokoldür. İletişim sırasında birtakım veri alışverişleri yapılması gerekir. Sunucu ve istemciye ait detayları, mesajın boyutunu, türünü ve çerezleri içeren bu veriler HTTP başlıkları ile belirtilir.
 
-Aşağıdaki örnekte, Twitter websitesinin kullandığı bazı HTTP başlıklarını görebiliriz.
+Aşağıdaki örnekte, Twitter web sitesinin kullandığı bazı HTTP başlıklarını görebiliriz.
 
 ![http-headers](images/http-headers.png)
 
@@ -38,7 +38,7 @@ Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe elementi 
 Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
 
 #### postMessage XSS nedir?
-postMessage; bir websitesinin, içerisindeki iframe ile güvenli bir şekilde iletişim kurmasını sağlayan JavaScript metodudur. Eğer metodun uygulanmasında XSS zafiyetine sebep olacak bir kod yazılmış ise, saldırgan zafiyetli sayfayı kendi websitesinde iframe etiketi içinde açarak XSS saldırısını gerçekleştirebilir.
+postMessage; bir web sitesinin, içerisindeki iframe ile güvenli bir şekilde iletişim kurmasını sağlayan JavaScript metodudur. Eğer metodun uygulanmasında XSS zafiyetine sebep olacak bir kod yazılmış ise, saldırgan zafiyetli sayfayı kendi web sitesinde iframe etiketi içinde açarak XSS saldırısını gerçekleştirebilir.
 
 - **DENY:**
 Hiçbir şekilde iframe içerisinde kullanılmasına izin verilmez.
@@ -66,14 +66,14 @@ Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bi
 
 ### HSTS (HTTP Strict Transport Security)
 
-Web sitesi ve browser arasındaki iletişimin yalnızca HTTPS üzerinden gerçekleşmesini sağlar. MITM saldırılarına karşı koruma sağlar.
+Web sitesi ile tarayıcı arasındaki iletişimin yalnızca HTTPS üzerinden gerçekleşmesini sağlar. MITM saldırılarına karşı koruma sağlar.
 
 #### Man in The Middle nedir?
 MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle gerçekleşir. HTTP bağlantılarında paketler şifrelenmediği için, hassas veriler saldırganın eline geçebilir.
 
 **Parametreleri**
 - **max-age:** 
-Özelliğin browser hafızasında tutulacağı süreyi saniye olarak belirtir.
+Özelliğin tarayıcı hafızasında tutulacağı süreyi saniye olarak belirtir.
 - **includeSubDomains:** 
 Özelliğin tüm subdomainler için geçerli olacağını belirtir.
 - **preload:** 
@@ -85,7 +85,7 @@ SSL sertifikasının tarayıcıların default HSTS listesine eklenmesini sağlar
 
 ### Content-Security-Policy (CSP)
 
-CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking gibi saldırılara karşı koruma sağlar. Google'ın geliştirdiği CSP Evaluator uygulaması ile, websitesinin uyguladığı CSP kurallarını ve bunların olası tehlikelerini görebiliriz.
+CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) hangi kaynaklardan yüklenmesine izin verileceğini ayarlar. XSS, Clickjacking gibi saldırılara karşı koruma sağlar. Google'ın geliştirdiği CSP Evaluator uygulaması ile, bir web sitesinin uyguladığı CSP kurallarını ve bunların olası tehlikelerini görebiliriz.
 
 ![csp-evaluator](images/csp-evaluator.png)
 
@@ -115,7 +115,7 @@ CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) 
 
 ### Feature Policy
 
-Kamera, mikrofon, sensörlere erişim ve aşağıda belirtilmiş birtakım browser özelliklerinin, sayfanın kendisi ve sayfa içerisindeki iframe elementi tarafından kullanım izinlerini ayarlar.
+Kamera, mikrofon, sensörlere erişim ve aşağıda belirtilmiş birtakım tarayıcı özelliklerinin, sayfanın kendisi ve sayfa içerisindeki iframe elementi tarafından kullanım izinlerini ayarlar.
 
 - **accelerometer:** İvmeölçer sensörünün kullanım iznini belirtir.
 - **autoplay:** Medyaların otomatik oynatma özelliğini belirtir.
@@ -128,7 +128,7 @@ Kamera, mikrofon, sensörlere erişim ve aşağıda belirtilmiş birtakım brows
 * **self:** Belirtilen özelliği yalnızca sitenin kendisinin kullanmasına izin verir.
 * **none:** Özelliğin kullanımına izin vermez.
 * **\***: Özelliğin sitenin kendisi ve yüklediği iframe pencereleri tarafından kullanılmasına izin verir.
-* **example.com:** Özelliğin belirtilen websitesi tarafından kullanılmasına izin verir.
+* **example.com:** Özelliğin belirtilen web sitesi tarafından kullanılmasına izin verir.
 
 Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy#Directives)
 
@@ -138,12 +138,12 @@ Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Header
 
 ### Cross-Origin Resource Sharing (CORS) ve Access-Control-Allow-Origin
 
-Kökenler arası kaynak paylaşımı (CORS), bir websitesi üzerindeki bazı kaynakların, başka bir kökene sahip (farklı domain, protokol veya port) websitesi tarafından kullanılabilmesini sağlayan mekanizmadır. Ajax çağrıları (XMLHttpRequest ve fetch API), drawImage() metoduyla çizilen canvas elementleri, CSS içerisinde @font-face ile çağrılan yazı tipleri ve [WebGL texture](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL) istekleri için kullanılır. 
+Kökenler arası kaynak paylaşımı (CORS), bir web sitesi üzerindeki bazı kaynakların, başka bir kökene sahip (farklı domain, protokol veya port) web sitesi tarafından kullanılabilmesini sağlayan mekanizmadır. Ajax çağrıları (XMLHttpRequest ve fetch API), drawImage() metoduyla çizilen canvas elementleri, CSS içerisinde @font-face ile çağrılan yazı tipleri ve [WebGL texture](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL) istekleri için kullanılır. 
 
 Hangi kaynaklara izin verileceği Access-Control-Allow-Origin başlığı ile belirlenir.
 - ***:** Kimlik bilgisi gerektirmeyen istekler için, bütün kaynaklara izin verir.
 - **example.com:** Yalnızca belirtilen kökenden gelen isteklere izin verir.
-- **null:** Kökeni null olarak belirtir. "data://", "file://" gibi hiyerarşik olmayan şemaların Origin değeri null olabildiği için, bu değerin kullanımından kaçınılmalıdır.
+- **null:** Hiçbir kaynağa izin verilmeyeceğini belirtmek için kullanılsa da, "data://" ve "file://" olarak belirtilen kaynakların origin değeri null olabildiği için, null kullanımından kaçınılmalıdır.
 
 `Access-Control-Allow-Origin: https://example.com`
 
@@ -151,17 +151,17 @@ Hangi kaynaklara izin verileceği Access-Control-Allow-Origin başlığı ile be
 
 ### Http Public Key Pinning
 
-Şifrelenmiş anahtar ile web sitesini eşleştiren bir güvenlik başlığıdır. Kullanıcı ve sunucu arasındaki ilk bağlantıda anahtar belirlenir ve sonraki isteklerin bu anahtarı içermesi beklenir. Yanlış anahtar gönderildiğinde kullanıcı uyarılır ve "report-uri" özelliği aktifse, belirtilen URL'e rapor edilir. Sahte sertifikalar yoluyla yapılan MiTM saldırılarını engellemek için geliştirilmiştir. Şu anda güncel tarayıcılar tarafından desteklenmemektedir. ([Neden kaldırıldı?](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ))
+Şifrelenmiş anahtar ile web sitesini eşleştiren bir güvenlik başlığıdır. Kullanıcı ve sunucu arasındaki ilk bağlantıda anahtar belirlenir ve sonraki isteklerin bu anahtarı içermesi beklenir. Yanlış anahtar gönderildiğinde kullanıcı uyarılır ve "report-uri" özelliği aktifse, belirtilen URL'ye rapor edilir. Sahte sertifikalar yoluyla yapılan MiTM saldırılarını engellemek için geliştirilmiştir. Şu anda güncel tarayıcılar tarafından desteklenmemektedir. ([Neden kaldırıldı?](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ))
 
 **Parametreleri**
 - **pin-sha256:**
 Base64 olarak kodlanmış [SPKI](https://ldapwiki.com/wiki/Subject%20Public%20Key%20Info) parmak izidir.
 - **max-age:**
-Anahtarın browser hafızasında tutulacağı süreyi saniye olarak belirtir.
+Anahtarın tarayıcı hafızasında tutulacağı süreyi saniye olarak belirtir.
 - **includeSubDomains:**
 Anahtarın tüm subdomainler için geçerli olacağını belirtir.
 - **report-uri:**
-Pin doğrulama hataları belirtilen websitesine bildirilir.
+Pin doğrulama hataları belirtilen web sitesine bildirilir.
 
 `Public-Key-Pins: pin-sha256="Yjk0ZDI3Yjk5MzRkM2UwOGE1MmU1MmQ3ZGE3ZGFiZmFjNDg0ZWZlMzdhNTM4MGVlOTA4OGY3YWNlMmVmY2RlOQ=="; max-age=5184000; includeSubDomains; report-uri="https://example.com/hpkp-report"`
 
@@ -181,7 +181,7 @@ HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScri
 Çerezlerin üçüncü taraf isteklerine eklenip eklenmeyeceğini ayarlar.
   - **None:** Çerezlerin bütün üçüncü taraf isteklerine eklenmesine izin verir. `secure` özelliği ile birlikte kullanılmak zorundadır.
   - **Strict:** Çerezlerin hiçbir üçüncü taraf isteğine eklenmesine izin vermez.
-  - **Lax:** Çerezleri yalnızca top level bir değişikliğe sebep olacak isteklere ekler. Yani gönderilen istek, sizi halihazırda bulunduğunuz sayfadan başka bir sayfaya götürüyorsa, çerezler isteğe eklenir. GET metodu ve `<a href>` etiketi ile gönderilen istekler buna örnektir. Ajax metodu veya `<img> <iframe>` etiketleri kullanılarak gönderilen isteklere ise çerezler eklenmez.
+  - **Lax:** Çerezleri yalnızca top level bir değişikliğe sebep olacak isteklere ekler. Yani gönderilen istek, sizi bulunduğunuz sayfadan başka bir sayfaya götürüyorsa, çerezler isteğe eklenir. `<a href>` etiketi ile gönderilen istekler buna örnektir. Ajax metodu veya `<img> <iframe>` etiketleri kullanılarak gönderilen isteklere ise çerezler eklenmez.
 
 `Set-Cookie: sessionid=xAeeEjJyvOA0eCaD1qUFmCT3cfYxc9Tp8q1bonFtoVB10pDCx5GC6iw9I5nY8FXNAWZHEA; HttpOnly; Secure; SameSite=Strict`
 
