@@ -124,5 +124,5 @@ Nur Pabuççu - [github.com/nurpabuccu](https://github.com/nurpabuccu)
 * Neil F. Johnson, <http://www.jjtc.com/index.html>  
 * <http://www.georeference.org/doc/images_and_channels.htm>  
 * <http://soundfile.sapp.org/doc/WaveFormat/> (WAVE ses formatı için daha detaylı bigileri burada bulabilirsiniz.)
-* <https://github.com/ktekeli/audio-steganography/algorithms>
-* <https://github.com/adrg/blob/master/lsbsteg.py>
+* <https://github.com/ktekeli/audio-steganography-algorithms>
+* <https://github.com/adrg/lsbsteg>
