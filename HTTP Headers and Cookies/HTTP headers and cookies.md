@@ -15,7 +15,7 @@ Muhtemel XSS payloadlarını tespit edip filtreleyerek Reflected XSS saldırıla
 #### XSS nedir?
 Cross Site Scripting (XSS), saldırganın kurbanın tarayıcısında keyfi JavaScript kodları çalıştırmasına izin veren bir güvenlik açığıdır.
 
-**Parametreleri**
+**Kullanımı**
 - **0:**
 Filtrelemeyi devre dışı bırakır. 
 - **1:**
@@ -37,9 +37,18 @@ Sayfanın bir iframe içerisinde çağırılma durumunu kontrol eder. Clickjacki
 Clickjacking, saldırganın zararsız gibi görünen bir siteye iframe elementi içerisinde başka bir web sitesi ekleyerek kullanıcıya istemediği işlemler yaptırmasıdır. 
 Örneğin, kullanıcı bir hediye kazanacağını düşünerek ekranda gördüğü butona basar. Fakat saldırgan, iframe içerisine bir bankanın para transfer sayfasını koymuşsa kurban butona bastığı anda aslında ödemeyi onaylamış olur. Tarayıcı, bankaya gönderilen isteğe kurbanın çerezlerini de ekler ve saldırgana para transferi gerçekleşir.
 
+*PoC:* 
+- Birçok tarayıcıda desteklenmeyen ALLOW-FROM parametresinin kullanımı, Periscope'da clickjacking zafiyetine sebep olmuştur. 
+- https://hackerone.com/reports/591432
+
 #### postMessage XSS nedir?
 postMessage; bir web sitesinin, içerisindeki iframe ile güvenli bir şekilde iletişim kurmasını sağlayan JavaScript metodudur. Eğer metodun uygulanmasında XSS zafiyetine sebep olacak bir kod yazılmış ise, saldırgan zafiyetli sayfayı kendi web sitesinde iframe etiketi içinde açarak XSS saldırısını gerçekleştirebilir.
 
+*PoC:*
+- Bu örnekte, https://platform.twitter.com sayfasının başka kaynaklar tarafından iframe içerisinde yüklenmesine izin verilmeseydi, kod zafiyetli olduğu halde XSS saldırısı gerçekleşemeyecekti. 
+- https://hackerone.com/reports/29328
+
+**Kullanımı**
 - **DENY:**
 Hiçbir şekilde iframe içerisinde kullanılmasına izin verilmez.
 - **SAMEORIGIN:**
@@ -60,6 +69,12 @@ Mime Type Sniffing, Content-Type belirtilmeyen durumlarda tarayıcının belgeni
 
 Mesela, HTML dosyası yüklemeye izin vermeyen ancak Content-Type belirtmeyen bir uygulamaya HTML ve JS kodları içeren herhangi bir dosya yüklendiğinde, tarayıcı bu dosyayı HTML dosyası olarak kabul eder ve XSS zafiyeti oluşur.
 
+*PoC:*
+- Uber'in bu başlığı kullanmaması, yalnızca `.tar.gz` uzantılı dosyaların yüklenebildiği mirror sayfasında XSS zafiyetine sebep olmuştur. 
+- https://hackerone.com/reports/126197
+
+**Kullanımı**
+
 `X-Content-Type-Options: nosniff`
 
 ![x-content-type-options](images/x-content-type-options.png)
@@ -71,7 +86,7 @@ Web sitesi ile tarayıcı arasındaki iletişimin yalnızca HTTPS üzerinden ger
 #### Man in The Middle nedir?
 MITM saldırıları, bir saldırganın ağ üzerindeki iletişimi dinlemesiyle gerçekleşir. HTTP bağlantılarında paketler şifrelenmediği için, hassas veriler saldırganın eline geçebilir.
 
-**Parametreleri**
+**Kullanımı**
 - **max-age:** 
 Özelliğin tarayıcı hafızasında tutulacağı süreyi saniye olarak belirtir.
 - **includeSubDomains:** 
@@ -89,6 +104,11 @@ CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) 
 
 ![csp-evaluator](images/csp-evaluator.png)
 
+*PoC:*
+- HackerOne'ın CSP kurallarını düzgün uygulaması, web sitesinde XSS zafiyeti olmasına rağmen -IE dışındaki tarayıcılarda- bu saldırıyı önlemektedir.
+- https://hackerone.com/reports/474656
+
+**Kullanımı**
 - **base-uri:** base elementinde kullanılabilecek URL'leri kısıtlar.
 - **default-src:** Default değer belirtir.
 - **font-src:** @font-face kullanarak yüklenecek kaynakları belirtir.
@@ -117,6 +137,7 @@ CSP, web sitesi içeriklerinin (JS kodları, CSS dosyaları, görüntüler vs.) 
 
 Kamera, mikrofon, sensörlere erişim ve aşağıda belirtilmiş birtakım tarayıcı özelliklerinin, sayfanın kendisi ve sayfa içerisindeki iframe elementi tarafından kullanım izinlerini ayarlar.
 
+**Kullanımı** 
 - **accelerometer:** İvmeölçer sensörünün kullanım iznini belirtir.
 - **autoplay:** Medyaların otomatik oynatma özelliğini belirtir.
 - **camera:** Kameraya erişim yetkisini belirtir.
@@ -138,12 +159,16 @@ Tüm liste için [bkz.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Header
 
 ### Cross-Origin Resource Sharing (CORS) ve Access-Control-Allow-Origin
 
-Kökenler arası kaynak paylaşımı (CORS), bir web sitesi üzerindeki bazı kaynakların, başka bir kökene sahip (farklı domain, protokol veya port) web sitesi tarafından kullanılabilmesini sağlayan mekanizmadır. Ajax çağrıları (XMLHttpRequest ve fetch API), drawImage() metoduyla çizilen canvas elementleri, CSS içerisinde @font-face ile çağrılan yazı tipleri ve [WebGL texture](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL) istekleri için kullanılır. 
+Kökenler arası kaynak paylaşımı (CORS), bir web sitesi üzerindeki bazı kaynakların, başka bir kökene sahip (farklı domain, protokol veya port) web sitesi tarafından kullanılabilmesini sağlayan mekanizmadır. Ajax çağrıları (XMLHttpRequest ve fetch API), drawImage() metoduyla çizilen canvas elementleri, CSS içerisinde @font-face ile çağrılan yazı tipleri ve [WebGL texture](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL) istekleri için kullanılır. Kullanıcı profili gibi hassas veriler içeren sayfaların içeriğinin görüntülenmesine engel olarak bu verilerin ele geçirilmesini önler. Hangi kökenlere izin verileceği Access-Control-Allow-Origin başlığı ile belirlenir.
 
-Hangi kaynaklara izin verileceği Access-Control-Allow-Origin başlığı ile belirlenir.
+*PoC:*
+- Twitter'a ait niche.co sitesinin bu başlığı yanlış kullanımı; kullanıcı bilgilerinin ifşalanması, değiştirilmesi, silinmesi ve CSRF tokeninin çalınmasına yol açmıştır.
+- https://hackerone.com/reports/426147
+
+**Kullanımı**
 - ***:** Kimlik bilgisi gerektirmeyen istekler için, bütün kaynaklara izin verir.
 - **example.com:** Yalnızca belirtilen kökenden gelen isteklere izin verir.
-- **null:** Hiçbir kaynağa izin verilmeyeceğini belirtmek için kullanılsa da, "data://" ve "file://" olarak belirtilen kaynakların origin değeri null olabildiği için, null kullanımından kaçınılmalıdır.
+- **null:** Hiçbir kökene izin verilmeyeceğini belirtmek için kullanılsa da, "data://" ve "file://" olarak belirtilen kaynakların origin değeri null olabildiği için, null kullanımından kaçınılmalıdır.
 
 `Access-Control-Allow-Origin: https://example.com`
 
@@ -153,7 +178,7 @@ Hangi kaynaklara izin verileceği Access-Control-Allow-Origin başlığı ile be
 
 Şifrelenmiş anahtar ile web sitesini eşleştiren bir güvenlik başlığıdır. Kullanıcı ve sunucu arasındaki ilk bağlantıda anahtar belirlenir ve sonraki isteklerin bu anahtarı içermesi beklenir. Yanlış anahtar gönderildiğinde kullanıcı uyarılır ve "report-uri" özelliği aktifse, belirtilen URL'ye rapor edilir. Sahte sertifikalar yoluyla yapılan MiTM saldırılarını engellemek için geliştirilmiştir. Şu anda güncel tarayıcılar tarafından desteklenmemektedir. ([Neden kaldırıldı?](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ))
 
-**Parametreleri**
+**Kullanımı**
 - **pin-sha256:**
 Base64 olarak kodlanmış [SPKI](https://ldapwiki.com/wiki/Subject%20Public%20Key%20Info) parmak izidir.
 - **max-age:**
@@ -172,7 +197,9 @@ Pin doğrulama hataları belirtilen web sitesine bildirilir.
 HTTP çerezleri (cookies), kullanıcının tarayıcısında depolanan küçük verilerdir. Genellikle oturum takibi yapmak ve kullanıcının tercihlerini hatırlamak için kullanılır. Bu çerezlerin güvenliğini sağlamak için çerezlere eklenmesi gereken bazı parametreler vardır.
 
 - **HttpOnly:** 
-HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScript tarafından (document.cookie) erişilemez. Session_id gibi önemli verilerin XSS saldırısıyla ele geçirilmesini engeller.
+HttpOnly olarak ayarlanmış bir çerez yalnızca sunucuya gönderilir, JavaScript tarafından (document.cookie) erişilemez. Kimlik doğrulama çerezlerinin XSS saldırısıyla ele geçirilmesini engeller.
+  - Amazon'un bu parametreyi kullanmaması, account takeover zafiyetine sebep olmuştur.
+  - https://medium.com/@adam.adreleve/advanced-javascript-injections-amazon-xss-to-full-account-takeover-c1559e1c43ad
 
 - **Secure:** 
 Çerezlerin yalnızca HTTPS taleplerinde sunucuya gönderilmesini sağlar. HTTPS taleplerinde veriler şifreli olarak gönderildiği için ağı dinleyen saldırganın çerezleri ele geçirmesi önlenir.
