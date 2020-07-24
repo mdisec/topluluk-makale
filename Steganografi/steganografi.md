@@ -6,7 +6,7 @@ Steganografi en basit tanımıyla veri gizleme işlemidir. Bu işlemde  temel am
 
 Ayrıca bazı ülkelerde bulunan şifreleme ve  ifade özgürlüğü kısıtlamaları nedeniyle steganografi yöntemi kullanılmaktadır.
 
-Bu makale boyunca bazı teknik terimler kullanılacaktır. Terminalojiyi bu bölümde açıklayıp makalenin geri kalanında buradaki terimlerden faydalanılacaktır.
+Bu makale boyunca bazı teknik terimler kullanılacaktır. Terminalojiyi bu bölümde açıklayıp makalenin geri kalanında buradaki terimlerden faydalanılacaktır.   
 
 **Cover:** Taşıyıcı dosyadır. Bir görüntü veya ses dosyası olabilir. Bilgi bu dosyaya gizlenir.  
 **Payload:** Saklanacak içeriktir.  
@@ -44,11 +44,14 @@ Bu yöntemle değiştirilmiş görüntüler kırpma, görüntü üzerinde oynanm
 
 ![LSB](lsb.jpg)
 
+**Örnek:** https://github.com/adrg/lsbsteg/blob/master/lsbsteg.py
+
 #### Filter Masking
 
 Genelde 24-bit görüntüler için kullanılır. Verilen parolaya göre görüntünün içinde modifiye edilecek bitler seçilir. Bazı görüntülerde saklanmış içeriklerin çıkartılmasına yarayan binwalk aracı burada işe yaramayacaktır. Çünkü burada mesajın yazılacağı bitler parola yardımıyla belirlenmiştir.
 
 Görüntünün gri ve kırmızı kanallarındaki bitler modifiye için tercih edilir. Saklanacak  mesajın ASCII formatına dönüştürülmesinin ardından, bit değerleri kontrol edilir. Eğer mesajın bit değeri 0 ise seçilen pikselin değeri değiştirilmez, mesajın bit değeri 1 ise piksel değeri 1 artırılır.
+
 
 #### Wavelet Steganografi
 
@@ -64,6 +67,8 @@ Ses steganografi, görüntü steganografiye göre biraz daha karmaşıktır.  Si
 
 Görüntü steganografide karşımıza çıkan LSB methodu burada da karşımıza çıkmaktadır. Yöntem aynı görüntü steganografide olduğu gibi çalışmaktadır. Benzer şekilde insan kulağının bu kadar küçük frekans değişimlerini algılaması zor olduğundan steganografi işlemi gerçekleşir. Ancak yeterince etkili  bir method değildir. Stego-medium üzerinde değişiklik yapılması halinde veri kaybı yaşanabileceğinden yeterince güvenilir değildir.
 
+**Örnek:** https://github.com/ktekeli/audio-steganography-algorithms/tree/master/03-LSB-Coding
+
 #### Phase Coding
 
 Ses dosyaları yapı olarak incelendiğinde header ve ses verisinden oluştuğu görülür. Bu method için veri saklama işlemi data kısmına yani header bilgilerinin bulunduğu ilk 44 byte'ın sonrasına yapılacaktır. İlk olarak ses datası n segmente ayrılır. Bu segmentlerin her birine DFT (Discrete Fourier Transformation) algoritması uygulanır. Saklanacak mesajımızın binary dosyasındaki değerlere göre faz kayması yapılır. Eğer mesajımızın bit değeri 0 ise ilk fazın artı yönde π/2 kaydırılmasıyla yeni faz oluşturulur. Bit değeri 1 ise ilk faz eksi yönde π/2 kaydırılarak yeni faz oluşturulur. Bu değişiklikler yalnızca ilk segmentte tutulur. Mesaj taşıyıcı dosyaya bu yöntemle eklendikten sonra bütün segmentlere IDFT (Inverse Discrete Fourier Transformation) uygulanır. Bu işlemle ilk segmentin önceki değerine yakın bir değer elde edilir. 
@@ -71,6 +76,8 @@ Ses dosyaları yapı olarak incelendiğinde header ve ses verisinden oluştuğu 
 Bütün data ekleme işlemi ilk segmente işlenmiş olduğundan ses dosyasının belli bir yere kadar kırpılmış olması saklanan mesaja zarar vermeyecektir. Aynı zamanda faz değişimi seste  çok belirgin olmayacağından tespit aşamasında spektrum görselleştirme gibi işlemlerden sonuç alınamaz.
 
 ![FFT](fft.gif)
+
+**Örnek:** https://github.com/ktekeli/audio-steganography-algorithms/tree/master/04-Phase-Coding
 
 #### Parity Coding
 
@@ -84,11 +91,16 @@ Orijinal ses dosyasının frekansı içinde yeni bir frekans aracılığıya mes
 
 Bu yöntemin dezavantajlarından birisi; taşıyıcı dosyaya yeni bir frekans eklendiğinde, özellikle  bu frekans 20-20.000 Mhz arağında ise, ses dosyasının içinde duyulabilecek olmasıdır. Ayrıca frekans tüm ses dosyası boyunca eklendiğinden stego-medium dosyası kırma, sıkıştırma gibi işlemlerin ardından bozulmaya uğrayabilir.
 
+**Örnek:** https://github.com/ktekeli/audio-steganography-algorithms/tree/master/01-Spread-Spectrum
+
 #### Echo Data Hiding
 
 1-10 ms gecikme ile saklanacak mesajın bit değerlerinden hareketle taşıyıcı dosyaya yankılar eklenmesidir. Öncelikle ses dosyası segmentlere ayrılır, saklanacak mesajın da bit değerleri alınır. Segmentleri takip edebilmek ve yankısını ekleyebilmek için her bir segmentin hash değerleri alınır. Eğer mesajın bit değeri 1 ise bakılan segmentten üç segment sonrasına aynı segmentin yankısı eklenir,  eğer mesajın bit değeri 0 ise bakılan segmentten iki segment sonrasına aynı segmentin yankısı eklenir.
 
 Bu yöntemin dezavantajı gecikme süresinin uzun olması durumunda verinin varlığının açığa çıkabilir olmasıdır. Ayrıca stego-medium kırpma, sıkıştırma gibi işlemlere karşı savunmasızdır.
+
+**Örnek:** https://github.com/ktekeli/audio-steganography-algorithms/tree/master/02-Echo-Hiding
+
 
 ### Yazarlar
 batcain - [github.com/batcain](https://github.com/batcain)  
@@ -96,19 +108,21 @@ Bersun - [github.com/rverdoc](https://github.com/Rverdoc)
 Nur Pabuççu - [github.com/nurpabuccu](https://github.com/nurpabuccu)  
 
 ### Kaynakça
-• Huriye Özdemir, Nisan-Mayıs 2018, "Veri Gizleme Sanatı: Steganography", Arkakapı Dergi 2. Sayı, Sayfa 23-29  
-• M. I. Khalil, Ekim 2011, "Image Steganography: Hiding Short Audio Messages Within Digital Images"  
-• Sabu M. Thampi, 2004, "Information Hiding Techniques: A Total Review"  
-• H.B Kekre - Archana Athawale - Swarnalata Rao - Uttara Athawale, Ekim 2010, "Information Hiding in Audio Signals"  
-• P. Jayaram  - H. R. Ranganatha - H. S. Anupama, Ağustos 2011, "Information Hiding Using Audio Steganography - A Survey"   
-• Sami Kumar - Gupta Banik - BandyopadhyayBarnali, Haziran 2012, "LSB Modification and Phase Encoding Technique of Audio Steganography Revisited"  
-• Jisna Antony - Sobin C. c - Sherly A. p, Ağustos 2012, "Audio Steganography in Wavelet Domain - A Survey"  
-• J. Anita Christaline - D. Vaishali, Haziran 2011, "Image Steganographic Techniques With Improved Embedding Capacity And Robustness"  
-• Sudhanshi Sharma - Umesh Kumar, 2013, "Review of Transform Domain Techniques of Image Steganography"  
-• K. Sharath Reddy, "Audio Steganography: Art of Hiding Secret Message", <https://www.slideshare.net/sharathkanjula1/audio-steganography-sharath>  
-• Barış Ceviz, 18 Eylül 2018, "Shazam'ın Müzik Arama Algoritması Nasıl Çalışır?", <http://devnot.com/2018/shazam-in-muzik-arama-algoritmasi-nasil-calisir/>  
-• Michael T. Raggo, 2004, "Steganography, Steganalysis & Cryptanalysis"  
-• <https://www.blackhat.com/presentations/bh-usa-04/bh-us-04-raggo/bh-us-04-raggo-up.pdf>  
-• Neil F. Johnson, <http://www.jjtc.com/index.html>  
-• <http://www.georeference.org/doc/images_and_channels.htm>  
-• <http://soundfile.sapp.org/doc/WaveFormat/> (WAVE ses formatı için daha detaylı bigileri burada bulabilirsiniz.)
+* Huriye Özdemir, Nisan-Mayıs 2018, "Veri Gizleme Sanatı: Steganography", Arkakapı Dergi 2. Sayı, Sayfa 23-29  
+* M. I. Khalil, Ekim 2011, "Image Steganography: Hiding Short Audio Messages Within Digital Images"  
+* Sabu M. Thampi, 2004, "Information Hiding Techniques: A Total Review"  
+* H.B Kekre - Archana Athawale - Swarnalata Rao - Uttara Athawale, Ekim 2010, "Information Hiding in Audio Signals"  
+* P. Jayaram  - H. R. Ranganatha - H. S. Anupama, Ağustos 2011, "Information Hiding Using Audio Steganography - A Survey"   
+* Sami Kumar - Gupta Banik - BandyopadhyayBarnali, Haziran 2012, "LSB Modification and Phase Encoding Technique of Audio Steganography Revisited"  
+* Jisna Antony - Sobin C. c - Sherly A. p, Ağustos 2012, "Audio Steganography in Wavelet Domain - A Survey"  
+* J. Anita Christaline - D. Vaishali, Haziran 2011, "Image Steganographic Techniques With Improved Embedding Capacity And Robustness"  
+* Sudhanshi Sharma - Umesh Kumar, 2013, "Review of Transform Domain Techniques of Image Steganography"  
+* K. Sharath Reddy, "Audio Steganography: Art of Hiding Secret Message", <https://www.slideshare.net/sharathkanjula1/audio-steganography-sharath>  
+* Barış Ceviz, 18 Eylül 2018, "Shazam'ın Müzik Arama Algoritması Nasıl Çalışır?", <http://devnot.com/2018/shazam-in-muzik-arama-algoritmasi-nasil-calisir/>  
+* Michael T. Raggo, 2004, "Steganography, Steganalysis & Cryptanalysis"  
+* <https://www.blackhat.com/presentations/bh-usa-04/bh-us-04-raggo/bh-us-04-raggo-up.pdf>  
+* Neil F. Johnson, <http://www.jjtc.com/index.html>  
+* <http://www.georeference.org/doc/images_and_channels.htm>  
+* <http://soundfile.sapp.org/doc/WaveFormat/> (WAVE ses formatı için daha detaylı bigileri burada bulabilirsiniz.)
+* <https://github.com/ktekeli/audio-steganography-algorithms>
+* <https://github.com/adrg/lsbsteg>
