@@ -2,7 +2,7 @@
 MDISEC Twitch yayınlarına katılan topluluk tarafından hazırlanacak makalelerin süreç yönetimi için kullanılan repodur.
 
 ## Nedir ?
-https://www.twitch.tv/mdisec adresinde yapılan kanlı-canlı siber güvenlik eğitimlerini yakından takip eden topluluk üyelerinin düzenli Türkçe içerik üretmesi için organize edilen bir depodasınız. Bu depo içerisinde, topluluk üyelerinin üzerinde aktif olarak çalıştığı araştırma konularını görebilir, ilginizi çeken konularla ilgili sizlerde içerik üretmek isterseniz https://discord.io/mdisec adresinden Discord kanalımıza katılabilirsiniz.
+https://www.twitch.tv/mdisec adresinde yapılan kanlı-canlı siber güvenlik eğitimlerini yakından takip eden topluluk üyelerinin düzenli Türkçe içerik üretmesi için organize edilen bir depodasınız. Bu depo içerisinde, topluluk üyelerinin üzerinde aktif olarak çalıştığı araştırma konularını görebilir, ilginizi çeken konularla ilgili sizlerde içerik üretmek isterseniz http://mdisec.com/dc  adresinden Discord kanalımıza katılabilirsiniz.
 
 ## Nasıl Çalışır
 1. Topluluk üyeleri, merak ettikleri ve/veya kendilerini geliştirmek istedikleri konuları bu repository içerisinde issue olarak tanımlamaktadır. Discord kanalı üzerinde gerçekleştirilen yazışmalar ve iletişimlerle isteyen herhangi bir topluluk üyesi, mevcutta sahipsiz bulunan konulardan herhangi birine talip olabilir.
