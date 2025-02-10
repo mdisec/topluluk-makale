@@ -180,7 +180,7 @@ Kökenler arası kaynak paylaşımı (CORS), bir web sitesi üzerindeki bazı ka
 
 **Kullanımı**
 - **pin-sha256:**
-Base64 olarak kodlanmış [SPKI](https://ldapwiki.com/wiki/Subject%20Public%20Key%20Info) parmak izidir.
+Base64 olarak kodlanmış [SPKI](https://ldapwiki.com/wiki/Wiki.jsp?page=Subject%20Public%20Key%20Info) parmak izidir.
 - **max-age:**
 Anahtarın tarayıcı hafızasında tutulacağı süreyi saniye olarak belirtir.
 - **includeSubDomains:**
